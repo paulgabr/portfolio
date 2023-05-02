@@ -24,53 +24,52 @@ body{
   }
 
 header {
-    display: flex;
     width: 100%;
     height: 80px;
     position: fixed;
     background-color: var(--white);
+    z-index: 100;
 }
 
-
-
-#navbar{
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    margin-right: 15px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow';
-}
-
-
-ul li {
+.logo{
     display: inline-block;
-    line-height: 70px;
-    
-}
-
-li {
-    font-size: 20px;
-    padding: 5px 25px;
-    
-}
-
-li a{
     color: var(--black);
     text-decoration: none;
-    display: block;
-    height: 70px;
-    width: 70px;
-  
-}
-
-#logo{
-    display: flex;
-    font-size: 40px;
+    font-size: 2.4em;
     font-family: 'Italic';
-    align-items: center;
+    margin: 18px;
+}
+
+
+.menuPrincipal{
+    float: right;
+    padding: 25px;
+}
+
+.menuPrincipal li{
+    display: inline-block;
+}
+
+.menuPrincipal a{
     text-decoration: none;
     color: var(--black);
-    margin: 25px;
+    font-size: 1.16em;
+    padding: 15px;
+}
+
+.menuPrincipal a:hover{
+    background-color: var(--blue);
+    color: var(--white);
+    border-radius: 10px;
+}
+
+.menuBotoes{
+    float: right;
+    color: var(--white);
+    border-radius: 7px;
+    height: 20px;
+    padding: 8px 10px;
+    margin: 20px 10px;
 }
 
 .section{
@@ -101,6 +100,7 @@ p{
     font-size: 28px;
     color: var(--rose);
 }
+
 
 .section2{
     display: flex;
@@ -150,16 +150,22 @@ p{
     color: var(--rose);
 }
 
+
 #contact li a {
+    color: var(--white);
+    display:inline-block;
+    text-decoration: none;
     width: 140px;
     text-align: center;
-    position: relative;
+    font-size: 1.1em;
 }
   
 #contact li a:hover {
     transform: translateY(-5px);
     transition: transform 0.5s;
 }
+
+  
 
 footer p{
     width: 100%;
@@ -169,4 +175,105 @@ footer p{
     color: var(--black);
     font-size: 25px;
     margin-top: -60px;
-  }
+}
+
+@media(min-width: 679px){
+    .menuBotoes{
+        display: none;  
+    }
+}
+
+@media screen and (max-width: 680px){
+    header {
+        height: 60px;
+    }
+
+    .limiteHeader {
+        flex-direction: column;
+        padding: 5px 5px 15px;
+    }
+
+    .logo {
+        height: 30px;
+        width: 100%;
+        z-index: 1;
+        background-color: var(--white);
+    }
+
+    .menuPrincipal {
+        width: 100%;
+        height: 30px;
+        margin-left: -5px;
+        padding-top: 15px;
+        background-color: var(--white);
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        transition: top 0.4s;
+    }
+
+    .menuPrincipal ul {
+        margin: 0 auto;
+        width: 300px;
+    }
+    
+
+    .menuPrincipal ul li a {
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .menuBotoes {
+        display: block;
+    }
+
+    #menuAbrir {
+        position: absolute;
+        line-height: 23.8px; 
+        z-index: 3;
+        right: 12px;
+        width: 24px;;
+        height: 25px;
+        top: 25px;
+        margin-right: 3px;
+        margin-top: -6px;
+        padding: 6px;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--white);
+        background-color: var(--black);
+        border: solid 1px var(--black);
+        border-radius: 7px;
+    }
+
+    #menuAbrir:hover {
+        background-color: #213146;
+    }
+
+    #menuFechar {
+        position: absolute;
+        line-height: 23.8px; 
+        z-index: 2;
+        right: 12px;
+        width: 24px;;
+        height: 25px;
+        top: 25px;
+        margin-right: 3px;
+        margin-top: -6px;
+        padding: 6px;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: var(--white);
+        background-color: var(--black);
+        border: solid 1px var(--black);
+        border-radius: 7px;
+    }
+
+    #menuFechar:hover {
+        background-color: #213146;
+    }
+
+    footer {
+        margin-top: 10px;
+    }
+}
