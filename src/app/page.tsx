@@ -111,7 +111,7 @@ export default function Home() {
             </div>
             
             <Image
-              src="/foto_eu.jpg"
+              src="/profile-gabriel.jpg"
               alt="Gabriel - Desenvolvedor"
               width={400}
               height={400}
