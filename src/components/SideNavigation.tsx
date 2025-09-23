@@ -1,11 +1,10 @@
 'use client';
+import styles from './SideNavigation.module.css';
 
 interface SideNavigationProps {
   activeSection: string;
   onNavigate: (sectionId: string) => void;
 }
-
-import styles from './SideNavigation.module.css';
 
 export default function SideNavigation({ activeSection, onNavigate }: SideNavigationProps) {
   const sections = [
