@@ -7,6 +7,11 @@
   right: 0;
   z-index: 1000;
   padding: 1rem 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
 .container {
@@ -52,12 +57,16 @@
   font-weight: 500;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   border-radius: 4px;
+  position: relative;
 }
 
 .navLink:hover {
-  transition: color 0.2s ease;
+  color: #8b8b8b;
+}
+
+.navLink.active {
   color: #8b8b8b;
 }
 

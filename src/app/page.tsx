@@ -1,13 +1,168 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
+import SideNavigation from '@/components/SideNavigation';
+import ImageCarousel from '@/components/ImageCarousel';
 import Image from 'next/image';
 import styles from './page.module.css';
+import Link from 'next/link';
 
 export default function Home() {
+  const [activeSection, setActiveSection] = useState('home');
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  const carouselItems = [
+    {
+      image: '/foto-1.jpg',
+      title: 'Minha Jornada',
+      description: [
+        'Sou um desenvolvedor apaixonado por criar soluções inovadoras e funcionais. Com experiência em diversas tecnologias, busco sempre aprender e me aprimorar para entregar os melhores resultados.',
+        'Minha jornada na programação começou há alguns anos e desde então tenho me dedicado a desenvolver projetos que fazem a diferença na vida das pessoas.'
+      ]
+    },
+    {
+      image: '/foto-2.jpg',
+      title: 'Minhas Habilidades',
+      description: [
+        'Trabalho com tecnologias modernas como React, Next.js, TypeScript e Node.js. Tenho experiência em desenvolvimento frontend e backend, criando aplicações completas.',
+        'Estou sempre em busca de novos desafios e oportunidades para crescer profissionalmente, participando de projetos que me permitem expandir meus conhecimentos.'
+      ]
+    },
+    {
+      image: '/foto-3.jpg',
+      title: 'Meus Objetivos',
+      description: [
+        'Meu objetivo é contribuir para projetos impactantes, trabalhando em equipe e ajudando a criar soluções que realmente importam para as pessoas.',
+        'Busco constantemente me atualizar com as melhores práticas do mercado, sempre focado em entregar código limpo, eficiente e bem documentado.'
+      ]
+    }
+  ];
+
+  useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout;
+    
+    const handleScroll = () => {
+      if (isScrolling) return;
+      
+      clearTimeout(scrollTimeout);
+      
+      scrollTimeout = setTimeout(() => {
+        const sections = ['home', 'sobre', 'portfolio', 'contato'];
+        const scrollY = window.scrollY;
+        
+        let closestSection = 'home';
+        let minDistance = Infinity;
+        
+        sections.forEach((sectionId) => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const elementTop = scrollY + rect.top;
+            const distance = Math.abs(scrollY - elementTop);
+            
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestSection = sectionId;
+            }
+          }
+        });
+        
+        const targetElement = document.getElementById(closestSection);
+        if (targetElement) {
+          const targetTop = targetElement.offsetTop;
+          const tolerance = 50;
+          
+          if (Math.abs(scrollY - targetTop) > tolerance) {
+            setIsScrolling(true);
+            window.scrollTo({
+              top: targetTop,
+              behavior: 'smooth'
+            });
+            
+            setTimeout(() => {
+              setIsScrolling(false);
+            }, 600);
+          }
+        }
+        
+        setActiveSection(closestSection);
+      }, 50);
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      if (isScrolling) {
+        e.preventDefault();
+        return;
+      }
+
+      const sections = ['home', 'sobre', 'portfolio', 'contato'];
+      const currentIndex = sections.indexOf(activeSection);
+      let targetIndex = currentIndex;
+
+      if (e.deltaY > 0 && currentIndex < sections.length - 1) {
+        targetIndex = currentIndex + 1;
+      } else if (e.deltaY < 0 && currentIndex > 0) {
+        targetIndex = currentIndex - 1;
+      }
+
+      if (targetIndex !== currentIndex) {
+        e.preventDefault();
+        
+        setActiveSection(sections[targetIndex]);
+        
+        setIsScrolling(true);
+        
+        const targetElement = document.getElementById(sections[targetIndex]);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop,
+            behavior: 'smooth'
+          });
+          
+          setTimeout(() => {
+            setIsScrolling(false);
+          }, 600);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel', handleWheel);
+      clearTimeout(scrollTimeout);
+    };
+  }, [activeSection, isScrolling]);
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    
+    setIsScrolling(true);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop,
+        behavior: 'smooth'
+      });
+      
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 600);
+    }
+  };
+
   return (
     <>
-      <Header />
-      <main className={styles.page}>
-        <div className={styles.container}>
+      <Header activeSection={activeSection} onNavigate={scrollToSection} />
+      <SideNavigation activeSection={activeSection} onNavigate={scrollToSection} />
+      
+      <section id="home" className={`${styles.section} ${styles.homeSection}`}>
+        <div className={`${styles.container} ${styles.homeLayout}`}>
           <div className={styles.textContent}>
             <p className={styles.greeting}>Fala galera,</p>
             <h1 className={styles.title}>
@@ -18,7 +173,10 @@ export default function Home() {
               Seja bem-vindo ao meu portfólio website
             </p>
             
-            <button className={styles.button}>
+            <button 
+              className={styles.button}
+              onClick={() => scrollToSection('sobre')}
+            >
               Saiba mais
             </button>
             
@@ -63,21 +221,18 @@ export default function Home() {
           
           <div className={styles.imageContainer}>
             <div className={styles.decorativeBackground}>
-              {/* Grid de pontos verdes */}
               <div className={styles.dotsGreen}>
                 {Array.from({ length: 96 }, (_, i) => (
                   <div key={`green-${i}`} className={styles.dotGreen}></div>
                 ))}
               </div>
               
-              {/* Grid de pontos azuis */}
               <div className={styles.dotsBlue}>
                 {Array.from({ length: 96 }, (_, i) => (
                   <div key={`blue-${i}`} className={styles.dotBlue}></div>
                 ))}
               </div>
               
-              {/* Linhas zigue-zague verde */}
               <svg className={styles.zigzagGreen} viewBox="0 0 100 60">
                 <path 
                   d="M10 50 L30 30 L50 50 L70 30 L90 50" 
@@ -93,7 +248,6 @@ export default function Home() {
                 />
               </svg>
               
-              {/* Linhas zigue-zague azul */}
               <svg className={styles.zigzagBlue} viewBox="0 0 100 60">
                 <path 
                   d="M10 10 L30 30 L50 10 L70 30 L90 10" 
@@ -120,7 +274,111 @@ export default function Home() {
             />
           </div>
         </div>
-      </main>
+      </section>
+
+      <section id="sobre" className={`${styles.section} ${styles.sobreSection}`}>
+        <div className={styles.container}>
+          <div className={styles.sobreDecorative}>
+            <div className={styles.floatingCircles}>
+              <div className={styles.circleBlue}></div>
+              <div className={styles.circleGreen}></div>
+              <div className={styles.circlePurple}></div>
+            </div>
+            
+            <div className={styles.triangleShape1}></div>
+            <div className={styles.triangleCenter}></div>
+          </div>
+          
+          <ImageCarousel items={carouselItems} />
+        </div>
+      </section>
+
+      <section id="portfolio" className={`${styles.section} ${styles.portfolioSection}`}>
+        <div className={styles.container}>
+          <div className={styles.sectionContent}>
+            <h2 className={styles.sectionTitle}>Portfólio</h2>
+            <p className={styles.sectionText}>
+              Aqui você pode conferir alguns dos meus projetos mais recentes. 
+              Cada projeto representa um desafio superado e um aprendizado conquistado.
+            </p>
+            <div className={styles.projectsGrid}>
+              <div className={styles.projectCard}>
+                <div className={styles.projectImage}>
+                  <Image
+                    src="/julyboo.png"
+                    alt="JulyBoo - Site de Doces Artesanais"
+                    width={300}
+                    height={200}
+                    className={styles.projectImg}
+                  />
+                </div>
+                <div className={styles.projectContent}>
+                  <h3>JulyBoo</h3>
+                  <p>Site institucional para loja de doces artesanais. Desenvolvido com HTML, CSS e JavaScript, apresenta produtos, sobre a empreendedora e canal de contato via WhatsApp.</p>
+                  <div className={styles.projectLinks}>
+                    <a 
+                      href="https://paulgabr.github.io/julyboo" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={styles.projectLink}
+                    >
+                      Ver Projeto
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.projectCard}>
+                <div className={styles.projectImage}>
+                  <Image
+                    src="/calculadora.png"
+                    alt="Calculadora - Projeto Vue.js"
+                    width={300}
+                    height={200}
+                    className={styles.projectImg}
+                  />
+                </div>
+                <div className={styles.projectContent}>
+                  <h3>Calculadora</h3>
+                  <p>Calculadora funcional desenvolvida com Vue.js e CSS. Interface moderna e responsiva com operações matemáticas básicas, design intuitivo e experiência de usuário otimizada.</p>
+                  <div className={styles.projectLinks}>
+                    <a 
+                      href="https://paulgabr.github.io/calculator-vue" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className={styles.projectLink}
+                    >
+                      Ver Projeto
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contato" className={`${styles.section} ${styles.contatoSection}`}>
+        <div className={styles.container}>
+          <div className={styles.sectionContent}>
+            <h2 className={styles.sectionTitle}>Contato</h2>
+            <p className={styles.sectionText}>
+              Vamos conversar? Entre em contato comigo através dos canais abaixo 
+              ou envie uma mensagem diretamente.
+            </p>
+            <div className={styles.contactInfo}>
+              <div className={styles.contactItem}>
+                <strong>Email:</strong> <Link href="mailto:rebelo.alves@hotmail.com">rebelo.alves@hotmail.com</Link>
+              </div>
+              <div className={styles.contactItem}>
+                <strong>Telefone:</strong> <Link href="tel:+5592992233300">(92) 99223-3300</Link>
+              </div>
+              <div className={styles.contactItem}>
+                <strong>LinkedIn:</strong> <Link href="https://linkedin.com/in/paulgab" target="_blank" rel="noopener noreferrer">/in/paulgab</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
