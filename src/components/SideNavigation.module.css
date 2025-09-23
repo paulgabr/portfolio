@@ -1,0 +1,107 @@
+.sideNav {
+  position: fixed;
+  right: 4rem;
+  top: 70%;
+  transform: translateY(-50%);
+  z-index: 1000;
+}
+
+.navContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navDot {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.navDot:hover {
+  transform: scale(1.1);
+}
+
+.inactiveDot {
+  width: 10px;
+  height: 10px;
+  background: #4a5568;
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+}
+
+.navDot:hover .inactiveDot {
+  background: #2c3e50;
+  transform: rotate(45deg) scale(1.1);
+}
+
+.activeSquare {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #4a5568;
+  background: transparent;
+  border-radius: 2px;
+  transform: rotate(0deg);
+  transition: all 0.5s ease;
+}
+
+.connector {
+  width: 2px;
+  height: 24px;
+  background: #cbd5e0;
+  margin: 3px 0;
+  border-radius: 1px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sideNav {
+    right: 1rem;
+    top: 65%;
+  }
+  
+  .connector {
+    height: 20px;
+    margin: 6px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .sideNav {
+    right: 0.5rem;
+  }
+  
+  .navDot {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .inactiveDot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .activeSquare {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .connector {
+    height: 18px;
+    margin: 4px 0;
+  }
+}

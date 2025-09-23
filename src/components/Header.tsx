@@ -1,21 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+interface HeaderProps {
+  activeSection: string;
+  onNavigate: (sectionId: string) => void;
+}
+
 import styles from './Header.module.css';
 
-export default function Header() {
-  const [activeSection, setActiveSection] = useState('/');
-
+export default function Header({ activeSection, onNavigate }: HeaderProps) {
   const menuItems = [
-    { name: 'home', path: '/' },
-    { name: 'sobre', path: '/' },
-    { name: 'portfólio', path: '/' },
-    { name: 'contato', path: '/' }
+    { name: 'home', id: 'home' },
+    { name: 'sobre', id: 'sobre' },
+    { name: 'portfólio', id: 'portfolio' },
+    { name: 'contato', id: 'contato' }
   ];
 
-  const handleMenuClick = (path: string, name: string) => {
-    setActiveSection(path);
-    console.log(`Navegando para: ${name} - ${path}`);
+  const handleMenuClick = (sectionId: string) => {
+    onNavigate(sectionId);
   };
 
   return (
@@ -28,10 +29,10 @@ export default function Header() {
         <nav className={styles.nav}>
           <ul className={styles.navList}>
             {menuItems.map((item) => (
-              <li key={item.name} className={styles.navItem}>
+              <li key={item.id} className={styles.navItem}>
                 <button
-                  className={`${styles.navLink} ${activeSection === item.path ? styles.active : ''}`}
-                  onClick={() => handleMenuClick(item.path, item.name)}
+                  className={`${styles.navLink} ${activeSection === item.id ? styles.active : ''}`}
+                  onClick={() => handleMenuClick(item.id)}
                 >
                   {item.name}
                 </button>
