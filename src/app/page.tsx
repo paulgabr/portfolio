@@ -14,7 +14,7 @@ export default function Home() {
 
   const carouselItems = [
     {
-      image: '/foto-1.jpg',
+      image: '/portfolio/foto-1.jpg',
       title: 'Minha Jornada',
       description: [
         'Sou um desenvolvedor apaixonado por criar soluções inovadoras e funcionais. Com experiência em diversas tecnologias, busco sempre aprender e me aprimorar para entregar os melhores resultados.',
@@ -22,7 +22,7 @@ export default function Home() {
       ]
     },
     {
-      image: '/foto-2.jpg',
+      image: '/portfolio/foto-2.jpg',
       title: 'Minhas Habilidades',
       description: [
         'Trabalho com tecnologias modernas como React, Next.js, TypeScript e Node.js. Tenho experiência em desenvolvimento frontend e backend, criando aplicações completas.',
@@ -30,7 +30,7 @@ export default function Home() {
       ]
     },
     {
-      image: '/foto-3.jpg',
+      image: '/portfolio/foto-3.jpg',
       title: 'Meus Objetivos',
       description: [
         'Meu objetivo é contribuir para projetos impactantes, trabalhando em equipe e ajudando a criar soluções que realmente importam para as pessoas.',
@@ -265,7 +265,7 @@ export default function Home() {
             </div>
             
             <Image
-              src="/profile-gabriel.jpg"
+              src="/portfolio/profile-gabriel.jpg"
               alt="Gabriel - Desenvolvedor"
               width={400}
               height={400}
@@ -305,7 +305,7 @@ export default function Home() {
               <div className={styles.projectCard}>
                 <div className={styles.projectImage}>
                   <Image
-                    src="/julyboo.png"
+                    src="/portfolio/julyboo.png"
                     alt="JulyBoo - Site de Doces Artesanais"
                     width={300}
                     height={200}
@@ -330,7 +330,7 @@ export default function Home() {
               <div className={styles.projectCard}>
                 <div className={styles.projectImage}>
                   <Image
-                    src="/calculadora.png"
+                    src="/portfolio/calculadora.png"
                     alt="Calculadora - Projeto Vue.js"
                     width={300}
                     height={200}
@@ -342,7 +342,7 @@ export default function Home() {
                   <p>Calculadora funcional desenvolvida com Vue.js e CSS. Interface moderna e responsiva com operações matemáticas básicas, design intuitivo e experiência de usuário otimizada.</p>
                   <div className={styles.projectLinks}>
                     <a 
-                      href="https://paulgabr.github.io/calculator-vue" 
+                      href="https://paulgabr.github.io/calculator" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className={styles.projectLink}
