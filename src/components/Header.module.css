@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
-
 .header {
   position: fixed;
   top: 0;
@@ -28,7 +26,7 @@
   color: #2c3e50;
   font-size: 1.5rem;
   font-weight: bold;
-  font-family: 'Nunito';
+  font-family: 'Arial', sans-serif;
 }
 
 .nav {
@@ -52,7 +50,7 @@
   border: none;
   color: #2c3e50;
   text-decoration: none;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Arial', sans-serif;
   font-size: 1.1rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
