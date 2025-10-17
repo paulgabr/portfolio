@@ -12,9 +12,15 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolling, setIsScrolling] = useState(false);
 
+  // Helper function to get the correct image path
+  const getImagePath = (imageName: string) => {
+    const isProd = process.env.NODE_ENV === 'production';
+    return isProd ? `/portfolio/${imageName}` : `/${imageName}`;
+  };
+
   const carouselItems = [
     {
-      image: '/portfolio/foto-1.jpg',
+      image: getImagePath('foto-1.jpg'),
       title: 'Minha Jornada',
       description: [
         'Sou um desenvolvedor apaixonado por criar soluções inovadoras e funcionais. Com experiência em diversas tecnologias, busco sempre aprender e me aprimorar para entregar os melhores resultados.',
@@ -22,7 +28,7 @@ export default function Home() {
       ]
     },
     {
-      image: '/portfolio/foto-2.jpg',
+      image: getImagePath('foto-2.jpg'),
       title: 'Minhas Habilidades',
       description: [
         'Trabalho com tecnologias modernas como React, Next.js, TypeScript e Node.js. Tenho experiência em desenvolvimento frontend e backend, criando aplicações completas.',
@@ -30,7 +36,7 @@ export default function Home() {
       ]
     },
     {
-      image: '/portfolio/foto-3.jpg',
+      image: getImagePath('foto-3.jpg'),
       title: 'Meus Objetivos',
       description: [
         'Meu objetivo é contribuir para projetos impactantes, trabalhando em equipe e ajudando a criar soluções que realmente importam para as pessoas.',
@@ -265,7 +271,7 @@ export default function Home() {
             </div>
             
             <Image
-              src="/portfolio/profile-gabriel.jpg"
+              src={getImagePath('profile-gabriel.jpg')}
               alt="Gabriel - Desenvolvedor"
               width={400}
               height={400}
@@ -305,7 +311,7 @@ export default function Home() {
               <div className={styles.projectCard}>
                 <div className={styles.projectImage}>
                   <Image
-                    src="/portfolio/julyboo.png"
+                    src={getImagePath('julyboo.png')}
                     alt="JulyBoo - Site de Doces Artesanais"
                     width={300}
                     height={200}
@@ -330,7 +336,7 @@ export default function Home() {
               <div className={styles.projectCard}>
                 <div className={styles.projectImage}>
                   <Image
-                    src="/portfolio/calculadora.png"
+                    src={getImagePath('calculadora.png')}
                     alt="Calculadora - Projeto Vue.js"
                     width={300}
                     height={200}
