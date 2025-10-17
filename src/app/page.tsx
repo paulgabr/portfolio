@@ -14,8 +14,7 @@ export default function Home() {
 
   // Helper function to get the correct image path
   const getImagePath = (imageName: string) => {
-    const isProd = process.env.NODE_ENV === 'production';
-    return isProd ? `/portifolio/${imageName}` : `/${imageName}`;
+    return `/${imageName}`;
   };
 
   const carouselItems = [
