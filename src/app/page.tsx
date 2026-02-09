@@ -10,9 +10,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
-  const [isScrolling, setIsScrolling] = useState(false);
 
-  // Helper function to get the correct image path
   const getImagePath = (imageName: string) => {
     return `/${imageName}`;
   };
@@ -45,119 +43,41 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    let scrollTimeout: NodeJS.Timeout;
-    
     const handleScroll = () => {
-      if (isScrolling) return;
-      
-      clearTimeout(scrollTimeout);
-      
-      scrollTimeout = setTimeout(() => {
-        const sections = ['home', 'sobre', 'portfolio', 'contato'];
-        const scrollY = window.scrollY;
-        
-        let closestSection = 'home';
-        let minDistance = Infinity;
-        
-        sections.forEach((sectionId) => {
-          const element = document.getElementById(sectionId);
-          if (element) {
-            const rect = element.getBoundingClientRect();
-            const elementTop = scrollY + rect.top;
-            const distance = Math.abs(scrollY - elementTop);
-            
-            if (distance < minDistance) {
-              minDistance = distance;
-              closestSection = sectionId;
-            }
-          }
-        });
-        
-        const targetElement = document.getElementById(closestSection);
-        if (targetElement) {
-          const targetTop = targetElement.offsetTop;
-          const tolerance = 50;
-          
-          if (Math.abs(scrollY - targetTop) > tolerance) {
-            setIsScrolling(true);
-            window.scrollTo({
-              top: targetTop,
-              behavior: 'smooth'
-            });
-            
-            setTimeout(() => {
-              setIsScrolling(false);
-            }, 600);
-          }
-        }
-        
-        setActiveSection(closestSection);
-      }, 50);
-    };
-
-    const handleWheel = (e: WheelEvent) => {
-      if (isScrolling) {
-        e.preventDefault();
-        return;
-      }
-
       const sections = ['home', 'sobre', 'portfolio', 'contato'];
-      const currentIndex = sections.indexOf(activeSection);
-      let targetIndex = currentIndex;
-
-      if (e.deltaY > 0 && currentIndex < sections.length - 1) {
-        targetIndex = currentIndex + 1;
-      } else if (e.deltaY < 0 && currentIndex > 0) {
-        targetIndex = currentIndex - 1;
-      }
-
-      if (targetIndex !== currentIndex) {
-        e.preventDefault();
-        
-        setActiveSection(sections[targetIndex]);
-        
-        setIsScrolling(true);
-        
-        const targetElement = document.getElementById(sections[targetIndex]);
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop,
-            behavior: 'smooth'
-          });
-          
-          setTimeout(() => {
-            setIsScrolling(false);
-          }, 600);
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      let currentSection = 'home';
+      
+      sections.forEach((sectionId) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top < windowHeight * 0.6 && rect.bottom > windowHeight * 0.4) {
+            currentSection = sectionId;
+          }
         }
-      }
+      });
+      
+      setActiveSection(currentSection);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    
     handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('wheel', handleWheel);
-      clearTimeout(scrollTimeout);
     };
-  }, [activeSection, isScrolling]);
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId);
-    
-    setIsScrolling(true);
     const element = document.getElementById(sectionId);
     if (element) {
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: 'smooth'
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
-      
-      setTimeout(() => {
-        setIsScrolling(false);
-      }, 600);
     }
   };
 
@@ -270,10 +190,10 @@ export default function Home() {
             </div>
             
             <Image
-              src={getImagePath('profile-gabriel.jpg')}
+              src={getImagePath('profile-gabriel.png')}
               alt="Gabriel - Desenvolvedor"
-              width={400}
-              height={400}
+              width={460}
+              height={460}
               className={styles.profileImage}
               priority
             />
