@@ -45,7 +45,6 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'sobre', 'portfolio', 'contato'];
-      const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       
       let currentSection = 'home';
@@ -60,7 +59,7 @@ export default function Home() {
         }
       });
       
-      setActiveSection(currentSection);
+      setActiveSection((prev) => (prev === currentSection ? prev : currentSection))
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
